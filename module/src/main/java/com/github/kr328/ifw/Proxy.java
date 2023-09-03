@@ -45,20 +45,20 @@ public class Proxy extends IPackageManager.Stub {
         }
 
         int callingUid = Binder.getCallingUid();
-        if (callingUid == Process.ROOT_UID)
-            return result;
-        if (callingUid != Process.SYSTEM_UID) {
-            String[] callingPackages = original.getPackagesForUid(callingUid);
-            if (callingPackages != null)
-                for (String pkg : callingPackages) {
-                    if (pkg.equals("com.jakting.shareclean") || pkg.equals("com.jakting.shareclean.debug")) {
-                        if (intent.getAction().equals(Intent.ACTION_PROCESS_TEXT)
-                                && intent.getType().equals("text/tigerinthewall")) {
+        if (callingUid >= Process.FIRST_APPLICATION_UID && callingUid <= Process.LAST_APPLICATION_UID) {
+            String[] packages = original.getPackagesForUid(callingUid);
+            if (packages != null && packages.length > 0) {
+                String callingPackage = packages[0];
+                if (callingPackage != null)
+                    if (callingPackage.equals("com.jakting.shareclean") || callingPackage.equals("com.jakting.shareclean.debug")) {
+                        String action = intent.getAction();
+                        String type = intent.getType();
+                        if (action != null && action.equals(Intent.ACTION_PROCESS_TEXT)
+                                && type != null && type.equals("text/tigerinthewall")) {
                             return new ParceledListSlice<>(new ArrayList<>());
                         }
-                        return result;
                     }
-                }
+            }
         }
 
         return new ParceledListSlice<>(
@@ -91,20 +91,20 @@ public class Proxy extends IPackageManager.Stub {
         }
 
         int callingUid = Binder.getCallingUid();
-        if (callingUid == Process.ROOT_UID)
-            return result;
-        if (callingUid != Process.SYSTEM_UID) {
-            String[] callingPackages = original.getPackagesForUid(callingUid);
-            if (callingPackages != null)
-                for (String pkg : callingPackages) {
-                    if (pkg.equals("com.jakting.shareclean") || pkg.equals("com.jakting.shareclean.debug")) {
-                        if (intent.getAction().equals(Intent.ACTION_PROCESS_TEXT)
-                                && intent.getType().equals("text/tigerinthewall")) {
+        if (callingUid >= Process.FIRST_APPLICATION_UID && callingUid <= Process.LAST_APPLICATION_UID) {
+            String[] packages = original.getPackagesForUid(callingUid);
+            if (packages != null && packages.length > 0) {
+                String callingPackage = packages[0];
+                if (callingPackage != null)
+                    if (callingPackage.equals("com.jakting.shareclean") || callingPackage.equals("com.jakting.shareclean.debug")) {
+                        String action = intent.getAction();
+                        String type = intent.getType();
+                        if (action != null && action.equals(Intent.ACTION_PROCESS_TEXT)
+                                && type != null && type.equals("text/tigerinthewall")) {
                             return new ParceledListSlice<>(new ArrayList<>());
                         }
-                        return result;
                     }
-                }
+            }
         }
 
         return new ParceledListSlice<>(
